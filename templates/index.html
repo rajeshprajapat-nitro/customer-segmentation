@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Segment &mdash; Customer Segmentation Studio</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="brand">Segment<span>.</span></div>
+  <div class="tagline">Unsupervised Customer Intelligence</div>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div>
+      <h1>Turn raw customer<br> data into <em>marketing<br> personas</em>.</h1>
+      <p>Upload a customer CSV, and K-Means will find natural groupings in
+      age, income, spending behaviour and loyalty &mdash; then translate every
+      cluster centroid into a plain-language persona with a ready-to-use
+      marketing strategy.</p>
+      <div class="badge-row">
+        <span class="badge">Pandas</span>
+        <span class="badge">Scikit-Learn / K-Means</span>
+        <span class="badge">Seaborn</span>
+        <span class="badge">Elbow Method</span>
+        <span class="badge">Silhouette Score</span>
+      </div>
+    </div>
+
+    <div class="panel">
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          {% for m in messages %}<div class="flash">{{ m }}</div>{% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      <form action="{{ url_for('analyze') }}" method="post" enctype="multipart/form-data" id="analyzeForm">
+
+        <span class="field-label">01 &mdash; Upload dataset</span>
+        <label class="upload-drop" id="dropLabel">
+          <input type="file" name="file" id="fileInput" accept=".csv">
+          <div>📄 Click to choose a CSV file</div>
+          <div class="fname" id="fname">Columns supported: Age, Annual_Income_k, Spending_Score, Membership_Years, Visits_Per_Month, Gender</div>
+        </label>
+
+        <div class="divider-or">or</div>
+
+        <label style="display:flex; align-items:center; gap:8px; margin-bottom:22px; font-size:13.5px;">
+          <input type="checkbox" name="use_sample" value="1" id="sampleCheck" checked>
+          Use the built-in sample dataset (500 synthetic customers)
+        </label>
+
+        <span class="field-label">02 &mdash; Number of clusters</span>
+        <div class="k-options">
+          <label><input type="radio" name="k_choice" value="auto" checked> Auto (best silhouette score)</label>
+          <label><input type="radio" name="k_choice" value="3"> k = 3</label>
+          <label><input type="radio" name="k_choice" value="4"> k = 4</label>
+          <label><input type="radio" name="k_choice" value="5"> k = 5</label>
+          <label><input type="radio" name="k_choice" value="6"> k = 6</label>
+        </div>
+
+        <button type="submit" class="cta">Run Segmentation →</button>
+      </form>
+    </div>
+  </section>
+
+  <section>
+    <span class="strategy-title">How it works</span>
+    <div class="chart-grid" style="grid-template-columns: repeat(3, 1fr);">
+      <div class="chart-card" style="padding:20px;">
+        <div class="cluster-tag mono">STEP 1</div>
+        <h3 style="font-family:'Fraunces',serif; font-size:18px; margin:6px 0;">Scale &amp; Elbow</h3>
+        <p style="color:var(--ink-soft); font-size:13.5px;">Features are standardized and K-Means is run across a range of k values, plotting inertia to visualize the elbow.</p>
+      </div>
+      <div class="chart-card" style="padding:20px;">
+        <div class="cluster-tag mono">STEP 2</div>
+        <h3 style="font-family:'Fraunces',serif; font-size:18px; margin:6px 0;">Validate with Silhouette</h3>
+        <p style="color:var(--ink-soft); font-size:13.5px;">Silhouette scores confirm cluster cohesion &amp; separation, auto-selecting the best k unless you override it.</p>
+      </div>
+      <div class="chart-card" style="padding:20px;">
+        <div class="cluster-tag mono">STEP 3</div>
+        <h3 style="font-family:'Fraunces',serif; font-size:18px; margin:6px 0;">Persona Generation</h3>
+        <p style="color:var(--ink-soft); font-size:13.5px;">Centroids are mapped to income/spend tiers and translated into named personas with marketing strategies.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>Customer Segmentation Studio &mdash; built with Flask, Pandas, Scikit-Learn &amp; Seaborn</footer>
+
+<script>
+  const fileInput = document.getElementById('fileInput');
+  const sampleCheck = document.getElementById('sampleCheck');
+  const fname = document.getElementById('fname');
+  fileInput.addEventListener('change', () => {
+    if (fileInput.files.length > 0) {
+      fname.textContent = "Selected: " + fileInput.files[0].name;
+      sampleCheck.checked = false;
+    }
+  });
+</script>
+
+</body>
+</html>
