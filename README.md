@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Segment — Customer Segmentation Studio
 
 A full-stack customer segmentation tool: upload customer data, run K-Means
@@ -91,3 +92,6 @@ marketing analytics roles will ask about. Be ready to explain:
   signal than inertia alone (inertia always decreases with k).
 - How the rule-based persona mapping could be extended to LLM-generated
   persona copy for production use.
+=======
+# customer-segmentation
+>>>>>>> 059cd9cce745f3e3ba6005bb60e28fd9e0b1d393
