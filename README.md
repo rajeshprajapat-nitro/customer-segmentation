@@ -3,7 +3,7 @@
 
 A full-stack customer segmentation tool: upload customer data, run K-Means
 clustering with model diagnostics (Elbow Method + Silhouette Score), and get
-back **marketing-ready personas** for each cluster — all through a web UI.
+back **marketing-ready personas** for each cluster — all through a web UI .
 
 ## Project 9 requirements — how it's covered
 
